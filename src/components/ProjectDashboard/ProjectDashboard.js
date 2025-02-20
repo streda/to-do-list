@@ -6,7 +6,7 @@ import AddProject from '../AddProject/AddProject';
 import ManageProject from '../ManageProject/ManageProject';
 import './ProjectDashboard.css';
 
-const API_BASE_URL = "https://api.to-dolist.xyz";
+const API_BASE_URL = "https://api.mytodolistapps.com";
 
 const ProjectDashboard = () => {
   const [clientProjectArray, setClientProjectArray] = useState([]);

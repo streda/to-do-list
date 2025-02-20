@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 import Item from "./Item";
 import "./ManageTask.css";
 
-const API_BASE_URL = "https://api.to-dolist.xyz";
+const API_BASE_URL = "https://api.mytodolistapps.com";
+
 const ManageTask = ({ assignments, setAssignments, assignmentStatus, deleteTask }) => {
   const assignmentArray = assignments.filter((item) =>
   assignmentStatus === "Active"

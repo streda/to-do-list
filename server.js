@@ -10,10 +10,16 @@ app.use(express.json());
 
 // Allow requests from Amplify frontend
 app.use(cors({
-  origin: ["https://main.d8cefkg5o9i5z.amplifyapp.com", "http://localhost:3000"],
+  origin: [
+    "https://main.d8cefkg5o9i5z.amplifyapp.com",
+    "http://localhost:3000",
+    "https://mytodolistapps.com",
+    "https://www.mytodolistapps.com"
+  ],
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
+
 
 const pool = new Pool({
   user: process.env.DB_USER,
@@ -112,6 +118,36 @@ app.post("/projects/:projectId/tasks", async (req, res) => {
   }
 });
 
+
+app.put("/projects/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { name } = req.body;
+
+        if (!name || name.trim() === "") {
+            return res.status(400).json({ error: "Project name is required" });
+        }
+
+        // Check if project exists
+        const projectCheck = await pool.query("SELECT * FROM projects WHERE id = $1", [id]);
+        if (projectCheck.rows.length === 0) {
+            return res.status(404).json({ error: "Project not found" });
+        }
+
+        // Update project
+        const updatedProject = await pool.query(
+            "UPDATE projects SET name = $1 WHERE id = $2 RETURNING *",
+            [name, id]
+        );
+
+        res.json(updatedProject.rows[0]); // ✅ Send back the updated project
+    } catch (err) {
+        console.error("❌ Error updating project:", err);
+        res.status(500).json({ error: "Failed to update project" });
+    }
+});
+
+
 app.put("/tasks/:id", async (req, res) => {
     try {
         const { id } = req.params;
@@ -207,6 +243,6 @@ app.delete("/projects/:id", async (req, res) => {
 });
 
 
-app.listen(5000, '0.0.0.0', () => {
-  console.log("Server running on port 5000 (IPv4 and IPv6)");
+app.listen(5001, '0.0.0.0', () => {
+  console.log("Server running on port 5001 (IPv4 and IPv6)");
 });
