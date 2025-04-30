@@ -14,11 +14,11 @@ The To-Do List App is a simple and intuitive application designed to help users 
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/streda/To-Do-List-App.git
+    git clone https://github.com/streda/to-do-list.git
     ```
 2. Navigate to the project directory:
     ```bash
-    cd To-Do-List-App
+    cd to-do-list
     ```
 3. Install the dependencies:
     ```bash
